@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1">
+<meta name="theme-color" content="#0a0e1a">
+<link rel="icon" type="image/svg+xml" href="./icon-192.svg">
+<link rel="manifest" href="./manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Lumicom ADV</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:#0a0e1a;color:#e2e8f0;min-height:100vh;padding-bottom:80px}
+.app{max-width:500px;margin:0 auto;padding:16px}
+h1{font-size:20px;font-weight:700}h2{font-size:18px;font-weight:700;margin-bottom:16px}
+.subtitle{color:#64748b;font-size:13px;margin-top:2px}
+.kpi-scroll{display:flex;gap:12px;overflow-x:auto;padding:16px 0;-webkit-overflow-scrolling:touch}
+.kpi-scroll::-webkit-scrollbar{display:none}
+.kpi{min-width:140px;background:#111827;border:1px solid #1e293b;border-radius:16px;padding:16px;flex-shrink:0}
+.kpi-label{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.kpi-value{font-size:22px;font-weight:700}
+.kpi-change{font-size:12px;margin-top:4px}
+.kpi-change.up{color:#10b981}.kpi-change.down{color:#ef4444}
+.card{background:#111827;border:1px solid #1e293b;border-radius:16px;padding:20px;margin-bottom:16px}
+.card h3{font-size:15px;font-weight:600;margin-bottom:12px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px}
+.bar-track{flex:1;height:8px;background:#1e293b;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.bar-fill.google{background:linear-gradient(90deg,#3b82f6,#8b5cf6)}
+.bar-fill.meta{background:linear-gradient(90deg,#8b5cf6,#ec4899)}
+.market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.market-card{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:16px;text-align:center}
+.market-flag{font-size:24px}
+.market-name{font-size:12px;color:#94a3b8;margin:4px 0}
+.market-spend{font-size:14px;font-weight:600}
+.market-roas{font-size:13px;font-weight:700;margin-top:4px}
+.tabs{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto}.tabs button{padding:8px 16px;border-radius:20px;border:1px solid #1e293b;background:transparent;color:#94a3b8;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}.tabs button.active{background:#3b82f6;border-color:#3b82f6;color:white}
+.camp-card{background:#111827;border:1px solid #1e293b;border-radius:16px;padding:16px;margin-bottom:12px}
+.camp-name{font-size:14px;font-weight:600;margin-bottom:4px}
+.camp-type{font-size:11px;color:#94a3b8;display:inline-block;background:#1e293b;padding:2px 8px;border-radius:8px;margin-right:4px}
+.camp-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px;font-size:12px;text-align:center}
+.camp-stat-label{color:#64748b;font-size:10px}
+.camp-stat-value{font-weight:600;margin-top:2px}
+.roas-bar{width:100%;height:4px;background:#1e293b;border-radius:2px;margin-top:8px;overflow:hidden}
+.roas-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#10b981,#3b82f6)}
+.budget-circle{width:120px;height:120px;border-radius:50%;border:8px solid #1e293b;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 16px;position:relative}
+.budget-pct{font-size:28px;font-weight:700;color:#3b82f6}
+.budget-label{font-size:11px;color:#94a3b8}
+.alloc-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #1e293b}
+.pacing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.pacing-item{background:#0f172a;border-radius:12px;padding:16px;text-align:center}
+.pacing-value{font-size:18px;font-weight:700}
+.pacing-label{font-size:11px;color:#94a3b8;margin-top:4px}
+.alert-card{background:#111827;border-left:3px solid;border-radius:0 16px 16px 0;padding:16px;margin-bottom:12px}
+.alert-card.high{border-color:#ef4444}.alert-card.medium{border-color:#f59e0b}
+.alert-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.alert-badge{font-size:10px;padding:2px 8px;border-radius:8px;display:inline-block;margin-bottom:8px}
+.alert-badge.high{background:rgba(239,68,68,0.15);color:#ef4444}
+.alert-badge.medium{background:rgba(245,158,11,0.15);color:#f59e0b}
+.alert-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;font-size:12px;text-align:center}
+.alert-action{font-size:12px;color:#94a3b8;background:#0f172a;border-radius:8px;padding:12px;margin-top:8px}
+.settings-section{background:#111827;border:1px solid #1e293b;border-radius:16px;padding:20px;margin-bottom:16px}
+.settings-section h3{font-size:15px;font-weight:600;margin-bottom:16px;color:#60a5fa}
+.settings-input{width:100%;background:#0f172a;border:1px solid #1e293b;color:#e2e8f0;padding:12px;border-radius:8px;font-size:13px;margin-bottom:12px}
+.btn{padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;display:inline-block;margin-right:8px}
+.btn-primary{background:#3b82f6;color:white}.btn-secondary{background:#1e293b;color:#94a3b8}
+.btn:hover{opacity:0.9}
+.status-msg{font-size:12px;min-height:20px;margin-top:8px}
+.conn-info{margin-top:16px;padding-top:12px;border-top:1px solid #1e293b;font-size:11px;color:#64748b}
+.conn-info div{margin-bottom:4px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#0f172a;border-top:1px solid #1e293b;display:flex;justify-content:space-around;padding:8px 0;z-index:999}
+.nav-item{display:flex;flex-direction:column;align-items:center;font-size:10px;color:#64748b;cursor:pointer;padding:4px 12px;text-decoration:none}
+.nav-item.active{color:#3b82f6}
+.nav-item svg{width:20px;height:20px;margin-bottom:2px}
+.live-indicator{position:fixed;top:12px;right:12px;z-index:9999;display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;backdrop-filter:blur(10px);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.live-indicator.online{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:#10b981}
+.live-indicator.offline{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);color:#f59e0b}
+.live-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.live-indicator.online .live-dot{background:#10b981;animation:pulse 2s infinite}
+.live-indicator.offline .live-dot{background:#f59e0b}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.suggest-box{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:16px;margin-top:16px;font-size:13px;color:#94a3b8}
+.daily-budget-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #0f172a;font-size:13px}
+.pct-badge{font-size:11px;font-weight:600;padding:2px 6px;border-radius:6px}
+.page{display:none}.page.active{display:block}
+</style>
+</head>
+<body>
+<div id="live-ind" class="live-indicator offline" onclick="toggleSettings()"><span class="live-dot"></span><span id="live-text">OFFLINE</span></div>
+<div class="app">
+<div id="page-dashboard" class="page active">
+<h1>Lumicom ADV</h1>
+<div class="subtitle" id="dash-date">11 Mar 2026 — Panoramica</div>
+<div class="kpi-scroll" id="dash-kpis">
+<div class="kpi"><div class="kpi-label">SPESA TOTALE</div><div class="kpi-value" data-key="spesa">2003 &euro;</div><div class="kpi-change up">+5.2%</div></div>
+<div class="kpi"><div class="kpi-label">ROAS MEDIO</div><div class="kpi-value" data-key="roas">3.40</div><div class="kpi-change down">-2.1%</div></div>
+<div class="kpi"><div class="kpi-label">CONVERSIONI</div><div class="kpi-value" data-key="conv">34.508</div><div class="kpi-change up">+8.4%</div></div>
+<div class="kpi"><div class="kpi-label">CTR MEDIO</div><div class="kpi-value" data-key="ctr">2.09%</div><div class="kpi-change up">+1.9%</div></div>
+<div class="kpi"><div class="kpi-label">CLICK TOTALI</div><div class="kpi-value" data-key="clicks">1.130.391</div><div class="kpi-change up">+12.3%</div></div>
+<div class="kpi"><div class="kpi-label">CPC MEDIO</div><div class="kpi-value" data-key="cpc">&euro;0.26</div><div class="kpi-change down">-3.7%</div></div>
+</div>
+<div class="card"><h3>Distribuzione piattaforma</h3>
+<div class="bar-row"><span>Google Ads</span><div class="bar-track"><div class="bar-fill google" style="width:70%"></div></div><span>70%</span></div>
+<div class="bar-row"><span>Meta Ads</span><div class="bar-track"><div class="bar-fill meta" style="width:30%"></div></div><span>30%</span></div>
+</div>
+<div class="card"><h3>Performance per mercato</h3>
+<div class="market-grid">
+<div class="market-card"><div class="market-flag">&#127470;&#127481;</div><div class="market-name">Italia</div><div class="market-spend">197.491 &euro;</div><div class="market-roas" style="color:#10b981">ROAS 3.77</div></div>
+<div class="market-card"><div class="market-flag">&#127467;&#127479;</div><div class="market-name">Francia</div><div class="market-spend">64.506 &euro;</div><div class="market-roas" style="color:#f59e0b">ROAS 2.54</div></div>
+<div class="market-card"><div class="market-flag">&#127465;&#127466;</div><div class="market-name">Germania</div><div class="market-spend">35.405 &euro;</div><div class="market-roas" style="color:#3b82f6">ROAS 2.92</div></div>
+</div></div>
+</div>
+<div id="page-campagne" class="page">
+<h2>Campagne</h2>
+<div class="tabs"><button class="active" onclick="showTab(this,'google')">Google Ads (8)</button><button onclick="showTab(this,'meta')">Meta Ads (11)</button></div>
+<div id="camp-google">
+<div class="camp-card"><div class="camp-name">IT-ita-BRANDPROTECTION</div><span class="camp-type">Search</span><span class="camp-type">IT</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">8.67</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">22.739&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">48.44%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.29</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">5806</div></div></div><div class="roas-bar"><div class="roas-bar-fill" style="width:100%"></div></div></div>
+<div class="camp-card"><div class="camp-name">IT-ita-PMax</div><span class="camp-type">Performance Max</span><span class="camp-type">IT</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">4.07</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">121.818&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">1.28%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.29</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">20683</div></div></div><div class="roas-bar"><div class="roas-bar-fill" style="width:47%"></div></div></div>
+<div class="camp-card"><div class="camp-name">DE-deu-PMax</div><span class="camp-type">Performance Max</span><span class="camp-type">DE</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">2.92</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">35.371&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">2.01%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.66</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">433</div></div></div><div class="roas-bar"><div class="roas-bar-fill" style="width:34%"></div></div></div>
+<div class="camp-card"><div class="camp-name">IT-ita-PLA Standard</div><span class="camp-type">Shopping</span><span class="camp-type">IT</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">2.64</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">4483&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">1.44%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.14</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">692</div></div></div></div>
+<div class="camp-card"><div class="camp-name">FR-fra-BRANDPROTECTION</div><span class="camp-type">Search</span><span class="camp-type">FR</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">2.55</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">10.559&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">31.52%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.95</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">821</div></div></div></div>
+<div class="camp-card"><div class="camp-name">FR-fra-PMax</div><span class="camp-type">Performance Max</span><span class="camp-type">FR</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">2.54</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">53.922&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">1.16%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.53</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">3582</div></div></div></div>
+<div class="camp-card"><div class="camp-name">IT-ita-SE-Lampade</div><span class="camp-type">Search</span><span class="camp-type">IT</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value" style="color:#ef4444">0.92</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">27.128&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">5.04%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.26</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">1401</div></div></div></div>
+<div class="camp-card"><div class="camp-name">IT-ita-DC-Prospecting</div><span class="camp-type">Demand Gen</span><span class="camp-type">IT</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value" style="color:#ef4444">0.63</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">21.234&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">6.78%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.07</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">1088</div></div></div></div>
+</div>
+<div id="camp-meta" style="display:none">
+<div class="camp-card"><div class="camp-name">IT-ita-CONVERSION-ASC-Purchase</div><span class="camp-type">Conversion</span><span class="camp-type">IT</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">11.10</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">51&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">1.57%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.27</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">1</div></div></div></div>
+<div class="camp-card"><div class="camp-name">IT-ita-CONVERSION-Purchase-DPA</div><span class="camp-type">Conversion</span><span class="camp-type">IT</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">&mdash;</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">14&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">3.15%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.22</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">0</div></div></div></div>
+<div class="camp-card"><div class="camp-name">DE-deu-CONVERSION-ASC-Purchase</div><span class="camp-type">Conversion</span><span class="camp-type">DE</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">&mdash;</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">20&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">3.21%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.66</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">0</div></div></div></div>
+<div class="camp-card"><div class="camp-name">FR-fra-CONVERSION-ASC-Purchase</div><span class="camp-type">Conversion</span><span class="camp-type">FR</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">&mdash;</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">15&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">2.76%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.26</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">0</div></div></div></div>
+<div class="camp-card"><div class="camp-name">IT-ita-PROSPECTING-ASC-ViewContent</div><span class="camp-type">Prospecting</span><span class="camp-type">IT</span><div class="camp-stats"><div><div class="camp-stat-label">ROAS</div><div class="camp-stat-value">&mdash;</div></div><div><div class="camp-stat-label">Spesa</div><div class="camp-stat-value">10&euro;</div></div><div><div class="camp-stat-label">CTR</div><div class="camp-stat-value">5.94%</div></div><div><div class="camp-stat-label">CPC</div><div class="camp-stat-value">&euro;0.03</div></div><div><div class="camp-stat-label">Conv.</div><div class="camp-stat-value">0</div></div></div></div>
+</div>
+</div>
+<div id="page-budget" class="page">
+<h2>Budget</h2>
+<div class="budget-circle"><div class="budget-pct" id="budget-pct">20.0%</div><div class="budget-label">utilizzato</div></div>
+<div style="text-align:center;margin-bottom:16px;font-size:14px"><span id="budget-spent" style="font-weight:700">2003 &euro;</span> di <span id="budget-total">10.000 &euro;</span></div>
+<div style="text-align:center;color:#64748b;font-size:13px;margin-bottom:16px">Budget mensile &mdash; Marzo 2026</div>
+<div class="card"><h3>Allocazione budget</h3>
+<div class="alloc-item"><div><div style="font-weight:600">Google Ads</div><div style="font-size:12px;color:#64748b">1702 &euro; / 7000 &euro;</div></div><div style="color:#10b981;font-size:13px">Rimanente: 5298 &euro;</div></div>
+<div class="alloc-item" style="border:none"><div><div style="font-weight:600">Meta Ads</div><div style="font-size:12px;color:#64748b">300 &euro; / 3000 &euro;</div></div><div style="color:#10b981;font-size:13px">Rimanente: 2700 &euro;</div></div>
+</div>
+<div class="card"><h3>Pacing</h3>
+<div style="text-align:center;margin-bottom:12px"><span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600">Sotto ritmo</span></div>
+<div class="pacing-grid">
+<div class="pacing-item"><div class="pacing-value">182 &euro;</div><div class="pacing-label">Media giornaliera</div></div>
+<div class="pacing-item"><div class="pacing-value">323 &euro;</div><div class="pacing-label">Target giornaliero</div></div>
+<div class="pacing-item"><div class="pacing-value">5645 &euro;</div><div class="pacing-label">Proiezione fine mese</div></div>
+</div></div>
+<div class="suggest-box">IT-ita-PMax ha un ROAS di 4.07. Considera di spostare il 10% del budget da IT-ita-DC-Prospecting (ROAS 0.63) per massimizzare il rendimento.</div>
+</div>
+<div id="page-alert" class="page">
+<h2>Alert</h2>
+<div style="margin-bottom:16px"><span style="background:#3b82f6;color:white;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:600">5 attivi</span></div>
+<div class="alert-card high"><span class="alert-badge high">Alta</span><div class="alert-title">CTR in calo</div><div style="font-size:12px;color:#94a3b8">IT-ita-DC-Prospecting &middot; 11/03/2026 09:15 &middot; Google Ads</div><div class="alert-stats"><div><div class="camp-stat-label">Attuale</div><div class="camp-stat-value">4.42%</div></div><div><div class="camp-stat-label">Media</div><div class="camp-stat-value">6.78%</div></div><div><div class="camp-stat-label">Variazione</div><div class="camp-stat-value" style="color:#ef4444">-35%</div></div></div><div class="alert-action">Verificare le creativita e il targeting. Il CTR e sceso significativamente.</div></div>
+<div class="alert-card medium"><span class="alert-badge medium">Media</span><div class="alert-title">CPC in aumento</div><div style="font-size:12px;color:#94a3b8">DE-deu-PMax &middot; 10/03/2026 14:30 &middot; Google Ads</div><div class="alert-stats"><div><div class="camp-stat-label">Attuale</div><div class="camp-stat-value">&euro;0.94</div></div><div><div class="camp-stat-label">Media</div><div class="camp-stat-value">&euro;0.66</div></div><div><div class="camp-stat-label">Variazione</div><div class="camp-stat-value" style="color:#f59e0b">+42%</div></div></div><div class="alert-action">Il CPC e aumentato del 42%. Valutare revisione bid strategy.</div></div>
+<div class="alert-card high"><span class="alert-badge high">Alta</span><div class="alert-title">Conversioni a zero</div><div style="font-size:12px;color:#94a3b8">FR-fra-CONVERSION-ASC-Purchase &middot; 10/03/2026 &middot; Meta Ads</div><div class="alert-stats"><div><div class="camp-stat-label">Attuale</div><div class="camp-stat-value">0</div></div><div><div class="camp-stat-label">Media</div><div class="camp-stat-value">1.2</div></div><div><div class="camp-stat-label">Variazione</div><div class="camp-stat-value" style="color:#ef4444">-100%</div></div></div><div class="alert-action">Nessuna conversione registrata. Verificare pixel e audience.</div></div>
+<div class="alert-card high"><span class="alert-badge high">Alta</span><div class="alert-title">ROAS in calo</div><div style="font-size:12px;color:#94a3b8">IT-ita-SE-Lampade &middot; 08/03/2026 &middot; Google Ads</div><div class="alert-stats"><div><div class="camp-stat-label">Attuale</div><div class="camp-stat-value">0.92</div></div><div><div class="camp-stat-label">Media</div><div class="camp-stat-value">1.38</div></div><div><div class="camp-stat-label">Variazione</div><div class="camp-stat-value" style="color:#ef4444">-33%</div></div></div><div class="alert-action">ROAS sotto 1.0 — la campagna sta perdendo. Valutare pausa o ottimizzazione keyword.</div></div>
+</div>
+<div id="page-settings" class="page">
+<h2>Impostazioni</h2>
+<div class="settings-section" id="settings-panel">
+<h3>Connessione Dati Live</h3>
+<label style="font-size:12px;color:#94a3b8;display:block;margin-bottom:6px">URL API Google Apps Script</label>
+<input id="api-input" class="settings-input" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+<div><button class="btn btn-primary" onclick="saveApi()">Salva e Connetti</button><button class="btn btn-secondary" onclick="testApi()">Test</button></div>
+<div id="status-msg" class="status-msg"></div>
+<div class="conn-info">
+<div>Stato: <span id="conn-status">--</span></div>
+<div>Ultimo aggiornamento: <span id="last-update">--</span></div>
+<div>Prossimo refresh: ogni 5 minuti</div>
+</div>
+</div>
+<div class="settings-section">
+<h3>Informazioni</h3>
+<div style="font-size:13px;color:#94a3b8">
+<p>Lumicom ADV Dashboard v2.0</p>
+<p style="margin-top:8px">Dati aggiornati in tempo reale dal Google Sheet sorgente tramite Apps Script API.</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="bottom-nav">
+<a class="nav-item active" onclick="navigate('dashboard',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+<a class="nav-item" onclick="navigate('campagne',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Campagne</a>
+<a class="nav-item" onclick="navigate('budget',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9h6M9 15h6"/></svg>Budget</a>
+<a class="nav-item" onclick="navigate('alert',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Alert</a>
+<a class="nav-item" onclick="navigate('settings',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Impostazioni</a>
+</nav>
+<script>
+var POLL_MS=300000,pollTimer=null,CONFIG_KEY='lumicom_api_url',CACHE_KEY='lumicom_cache',CACHE_TIME='lumicom_cache_t';
+function navigate(page,el){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active')});if(el)el.classList.add('active');window.scrollTo(0,0)}
+function showTab(btn,tab){btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');document.getElementById('camp-google').style.display=tab==='google'?'block':'none';document.getElementById('camp-meta').style.display=tab==='meta'?'block':'none'}
+function toggleSettings(){navigate('settings',document.querySelectorAll('.nav-item')[4])}
+function setStatus(msg,color){var e=document.getElementById('status-msg');if(e){e.textContent=msg;e.style.color=color||'#94a3b8'}}
+function updateIndicator(live){var el=document.getElementById('live-ind'),txt=document.getElementById('live-text');if(live){el.className='live-indicator online';txt.textContent='LIVE'}else{el.className='live-indicator offline';txt.textContent='OFFLINE'}}
+function updateConnInfo(live,time){var s=document.getElementById('conn-status'),u=document.getElementById('last-update');if(s)s.innerHTML=live?'<span style="color:#10b981">Connesso</span>':'<span style="color:#f59e0b">Offline</span>';if(u&&time)u.textContent=time.toLocaleTimeString('it-IT')}
+function saveApi(){var url=document.getElementById('api-input').value.trim();if(url){localStorage.setItem(CONFIG_KEY,url);setStatus('Salvato! Connessione...','#60a5fa');fetchLive(url)}else{localStorage.removeItem(CONFIG_KEY);updateIndicator(false);setStatus('URL rimosso. Modalita offline.','#f59e0b')}}
+function testApi(){var url=document.getElementById('api-input').value.trim();if(!url){setStatus('Inserisci un URL.','#ef4444');return}setStatus('Test...','#60a5fa');fetch(url).then(function(r){return r.json()}).then(function(d){var k=Object.keys(d).filter(function(x){return x!=='timestamp'&&x!=='status'});setStatus('OK! Fogli: '+k.join(', '),'#10b981')}).catch(function(e){setStatus('Errore: '+e.message,'#ef4444')})}
+function fetchLive(url){if(!url)url=localStorage.getItem(CONFIG_KEY);if(!url)return;fetch(url).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(function(data){localStorage.setItem(CACHE_KEY,JSON.stringify(data));localStorage.setItem(CACHE_TIME,Date.now().toString());updateIndicator(true);updateConnInfo(true,new Date());setStatus('Connesso! Dati ricevuti.','#10b981');applyData(data)}).catch(function(e){updateIndicator(false);updateConnInfo(false);setStatus('Errore: '+e.message+'. Uso cache.','#ef4444');loadCache()})}
+function loadCache(){try{var c=localStorage.getItem(CACHE_KEY),t=localStorage.getItem(CACHE_TIME);if(c&&t&&(Date.now()-parseInt(t))<900000){applyData(JSON.parse(c));setStatus('Dati dalla cache ('+Math.round((Date.now()-parseInt(t))/60000)+' min fa)','#f59e0b')}}catch(e){}}
+function startPolling(){stopPolling();var url=localStorage.getItem(CONFIG_KEY);if(!url)return;fetchLive(url);pollTimer=setInterval(function(){fetchLive(url)},POLL_MS)}
+function stopPolling(){if(pollTimer){clearInterval(pollTimer);pollTimer=null}}
+function applyData(data){if(!data)return;console.log('[Lumicom LIVE] Dati ricevuti:',data);if(data.dashboard&&data.dashboard.rows){var d=data.dashboard;var kpis=document.querySelectorAll('#dash-kpis .kpi-value');if(d.rows[0]&&kpis.length>0){for(var i=0;i<Math.min(d.rows[0].length,kpis.length);i++){kpis[i].textContent=d.rows[0][i]||kpis[i].textContent}}}if(data.campagne&&data.campagne.rows){var gc=document.querySelectorAll('#camp-google .camp-card');var mc=document.querySelectorAll('#camp-meta .camp-card');var h=data.campagne.headers||[];data.campagne.rows.forEach(function(row,idx){var platform=row[h.indexOf('platform')]||row[h.indexOf('Piattaforma')]||'';var cards=platform.toLowerCase().includes('meta')?mc:gc;var cardIdx=platform.toLowerCase().includes('meta')?idx-gc.length:idx;if(cards[cardIdx]){var vals=cards[cardIdx].querySelectorAll('.camp-stat-value');if(vals[0]&&row[h.indexOf('roas')])vals[0].textContent=row[h.indexOf('roas')];if(vals[1]&&row[h.indexOf('spend')])vals[1].textContent=row[h.indexOf('spend')];if(vals[2]&&row[h.indexOf('ctr')])vals[2].textContent=row[h.indexOf('ctr')];if(vals[3]&&row[h.indexOf('cpc')])vals[3].textContent=row[h.indexOf('cpc')];if(vals[4]&&row[h.indexOf('conv')])vals[4].textContent=row[h.indexOf('conv')]}})}if(data.budget&&data.budget.rows&&data.budget.rows[0]){var b=data.budget.rows[0];var bp=document.getElementById('budget-pct');var bs=document.getElementById('budget-spent');if(bp&&b[0])bp.textContent=b[0];if(bs&&b[1])bs.textContent=b[1]}}
+(function init(){var saved=localStorage.getItem(CONFIG_KEY);if(saved){document.getElementById('api-input').value=saved;startPolling()}else{loadCache()}})()
+</script>
+</body>
+</html>
