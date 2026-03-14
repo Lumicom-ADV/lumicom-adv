@@ -457,6 +457,7 @@ function applyData(data){
   localStorage.setItem(CK,saved);
   var inp=document.getElementById('api-input');if(inp)inp.value=saved;
   startPolling();
+    document.querySelectorAll('.bottom-nav .nav-item').forEach(function(el){el.style.pointerEvents='auto';el.querySelectorAll('svg,span,*').forEach(function(c){c.style.pointerEvents='none';});});
 })();
 </script>
 </body>
