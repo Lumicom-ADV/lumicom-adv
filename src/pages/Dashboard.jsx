@@ -75,26 +75,34 @@ export default function Dashboard({ data, period, setPeriod }) {
             <YAxis hide />
             <Tooltip formatter={v => `${fmtNum(v)}\u20AC`} />
             <Line type="monotone" dataKey="spesa" stroke="#6366f1" strokeWidth={2} dot={false} />
-            <Line type="monotone" dataKey="prevSpesa" stroke="#e0e0e0" strokeWidth={1} dot={false} strokeDasharray="4 4" />
+            <Line type="monotone" dataKey="prevSpesa" stroke="#64748b" strokeWidth={1} strokeDasharray="4 4" dot={false} />
           </LineChart>
         </ResponsiveContainer>
-        <div style={{display:'flex',gap:16,fontSize:11,color:'#64748b',marginTop:4}}>
-          <span><span className="legend-dot" style={{background:'#6366f1'}} /> Periodo corrente</span>
-          <span><span className="legend-dot" style={{background:'#e0e0e0'}} /> Stesso periodo anno prec.</span>
+        <div className="legend">
+          <span><span className="legend-dot" style={{background:'#6366f1'}}></span> Periodo corrente</span>
+          <span><span className="legend-dot" style={{background:'#64748b'}}></span> Stesso periodo anno prec.</span>
         </div>
       </div>
 
       <div className="card">
         <h3>Distribuzione piattaforma</h3>
-        <div className="bar-row">
-          <span>Google Ads</span>
-          <div className="bar-track"><div className="bar-fill google" style={{width:`${p.gPct}%`}} /></div>
-          <span>{p.gPct}%</span>
+        <div style={{marginBottom:8}}>
+          <span style={{fontSize:13}}>Google Ads </span>
+          <div style={{display:'flex',alignItems:'center',gap:8}}>
+            <div style={{flex:1,height:8,background:'#1e293b',borderRadius:4,overflow:'hidden'}}>
+              <div style={{width:`${p.gPct}%`,height:'100%',background:'linear-gradient(90deg,#3b82f6,#6366f1)',borderRadius:4}}></div>
+            </div>
+            <span style={{fontSize:13,minWidth:40}}>{p.gPct}%</span>
+          </div>
         </div>
-        <div className="bar-row">
-          <span>Meta Ads</span>
-          <div className="bar-track"><div className="bar-fill meta" style={{width:`${p.mPct}%`}} /></div>
-          <span>{p.mPct}%</span>
+        <div>
+          <span style={{fontSize:13}}>Meta Ads </span>
+          <div style={{display:'flex',alignItems:'center',gap:8}}>
+            <div style={{flex:1,height:8,background:'#1e293b',borderRadius:4,overflow:'hidden'}}>
+              <div style={{width:`${p.mPct}%`,height:'100%',background:'linear-gradient(90deg,#ec4899,#f43f5e)',borderRadius:4}}></div>
+            </div>
+            <span style={{fontSize:13,minWidth:40}}>{p.mPct}%</span>
+          </div>
         </div>
       </div>
 
@@ -102,17 +110,19 @@ export default function Dashboard({ data, period, setPeriod }) {
         <h3>Performance per mercato</h3>
         <div className="market-grid">
           {[{flag:'\uD83C\uDDEE\uD83C\uDDF9',name:'Italia',key:'IT'},{flag:'\uD83C\uDDEB\uD83C\uDDF7',name:'Francia',key:'FR'},{flag:'\uD83C\uDDE9\uD83C\uDDEA',name:'Germania',key:'DE'}].map(({flag,name,key}) => (
-            <div className="market-card" key={key}>
+            <div key={key} className="market-card">
               <div className="market-flag">{flag}</div>
-              <div className="market-name">{name}</div>
-              <div className="market-spend">{fmtNum(m[key].spend)}\u20AC</div>
-              <div className="market-spend-prev">anno prec: {fmtNum(m[key].spend*0.9)}\u20AC</div>
-              <div className="market-roas">ROAS {mkRoas(m[key])}</div>
-              <div className="market-roas-prev">anno prec: {(mkRoas(m[key])*0.93).toFixed(2)}</div>
+              <div style={{fontWeight:700,fontSize:16}}>{key}</div>
+              <div style={{fontSize:11,color:'#94a3b8'}}>{name}</div>
+              <div style={{fontWeight:700,marginTop:6}}>{fmtNum(m[key].spend)}€</div>
+              <div style={{fontSize:10,color:'#64748b'}}>anno prec: {fmtNum(m[key].spend*0.9)}€</div>
+              <div style={{fontWeight:700,marginTop:4}}>ROAS {mkRoas(m[key])}</div>
+              <div style={{fontSize:10,color:'#64748b'}}>anno prec: {(mkRoas(m[key])*0.93).toFixed(2)}</div>
             </div>
           ))}
         </div>
       </div>
+
     </div>
   );
 }
