@@ -123,31 +123,37 @@ export function processData(raw) {
   const avgRoas = totSpesa > 0 ? (totValConv / totSpesa) : 0;
   const avgCpc = totClick > 0 ? (totSpesa / totClick) : 0;
 
-  // YoY from storico_mensile — confronto a pari periodo
-  const dayOfMonth = now.getDate(); // es. 15
-  let prevSpesa = 0, prevConv = 0, prevClick = 0, prevRoas = 0, prevCtr = 0, prevCpc = 0;
-  let periodLabel = '';
-  if (storico && storico.rows && storico.rows.length > 0) {
-    const targetMonth = curMonth;
-    const targetYear = curYear - 1;
-    const prevRow = storico.rows.find(r => {
-      return parseInt(r[0]) === targetMonth && parseInt(r[1]) === targetYear;
-    });
-    if (prevRow) {
-      // Giorni nel mese storico (es. marzo 2025 = 31)
-      const daysInPrevMonth = new Date(targetYear, targetMonth, 0).getDate();
-      const ratio = dayOfMonth / daysInPrevMonth;
-      // Metriche di volume: proporzionate al periodo
-      prevSpesa = parseFloat(prevRow[5] || 0) * ratio;
-      prevConv = parseFloat(prevRow[8] || 0) * ratio;
-      prevClick = parseFloat(prevRow[6] || 0) * ratio;
-      // Metriche di rapporto: restano invariate
-      prevRoas = parseFloat(prevRow[10] || 0);
-      prevCtr = parseFloat(prevRow[11] || 0);
-      prevCpc = parseFloat(prevRow[12] || 0);
+// YoY from storico_mensile — dati giornalieri, confronto a pari periodo
+    const dayOfMonth = now.getDate(); // es. 15
+    let prevSpesa = 0, prevConv = 0, prevClick = 0, prevImpr = 0, prevValConv = 0;
+    let prevRoas = 0, prevCtr = 0, prevCpc = 0;
+    let periodLabel = '';
+    if (storico && storico.rows && storico.rows.length > 0) {
+      const targetYear = curYear - 1;
+      const targetMonth = curMonth;
+      // Filtra righe storico per stesso mese, anno precedente, giorno 1..dayOfMonth
+      const prevRows = storico.rows.filter(r => {
+        const d = (r[0] || '').toString().slice(0, 10);
+        const parts = d.split('-');
+        if (parts.length < 3) return false;
+        const y = parseInt(parts[0]), m = parseInt(parts[1]), day = parseInt(parts[2]);
+        return y === targetYear && m === targetMonth && day >= 1 && day <= dayOfMonth;
+      });
+      // Somma metriche dal periodo filtrato
+      // Storico headers: [0]Data, [1]Spesa, [2]Click, [3]Impressioni, [4]Conversioni, [5]Valore Conv
+      prevRows.forEach(r => {
+        prevSpesa += parseFloat(r[1] || 0);
+        prevClick += parseInt(r[2] || 0);
+        prevImpr += parseInt(r[3] || 0);
+        prevConv += parseFloat(r[4] || 0);
+        prevValConv += parseFloat(r[5] || 0);
+      });
+      // Calcola metriche di rapporto dal periodo storico
+      prevRoas = prevSpesa > 0 ? (prevValConv / prevSpesa) : 0;
+      prevCtr = prevImpr > 0 ? (prevClick / prevImpr * 100) : 0;
+      prevCpc = prevClick > 0 ? (prevSpesa / prevClick) : 0;
       periodLabel = '1-' + dayOfMonth + ' ' + now.toLocaleString('it-IT', {month:'short'});
     }
-  }
   
 
   // Platform distribution (from daily data mese corrente)
