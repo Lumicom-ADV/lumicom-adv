@@ -38,6 +38,12 @@ export default function Dashboard({ data }) {
         <KpiCard label="Click Totali" value={fmtNum(k.click)} current={k.click} previous={k.prevClick} />
         <KpiCard label="CPC Medio" value={`€${k.cpc.toFixed(2)}`} current={k.cpc} previous={k.prevCpc} />
       </div>
+      
+        {/* Seconda barra KPI: Vendite e Efficacia */}
+        <div className="kpi-scroll">
+          <KpiCard label="Valore Venduto" value={`${fmtNum(Math.round(k.valConv))}€`} current={k.valConv} previous={k.prevValConv} />
+          <KpiCard label="Efficacia Campagne" value={`${k.valConv > 0 ? (k.spesa / k.valConv * 100).toFixed(1) : 0}%`} current={k.valConv > 0 ? (k.spesa / k.valConv * 100) : 0} previous={k.prevValConv > 0 ? (k.prevSpesa / k.prevValConv * 100) : 0} invertColor={true} />
+        </div>
 
       <div className="card">
         <h3>Spesa</h3>
