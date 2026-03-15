@@ -1,0 +1,226 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0a0e1a;
+  color: #e2e8f0;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+.app { max-width: 500px; margin: 0 auto; padding: 16px; }
+
+h1 { font-size: 20px; font-weight: 700; }
+h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+.subtitle { color: #64748b; font-size: 13px; margin-top: 2px; }
+
+/* KPI Scroll */
+.kpi-scroll {
+  display: flex; gap: 12px; overflow-x: auto;
+  padding: 16px 0; -webkit-overflow-scrolling: touch;
+}
+.kpi-scroll::-webkit-scrollbar { display: none; }
+.kpi {
+  min-width: 140px; background: #111827;
+  border: 1px solid #1e293b; border-radius: 16px;
+  padding: 16px; flex-shrink: 0;
+}
+.kpi-label { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.kpi-value { font-size: 22px; font-weight: 700; }
+.kpi-change { font-size: 12px; margin-top: 4px; }
+.kpi-change.up { color: #10b981; }
+.kpi-change.down { color: #ef4444; }
+.kpi-sub { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+/* Cards */
+.card {
+  background: #111827; border: 1px solid #1e293b;
+  border-radius: 16px; padding: 20px; margin-bottom: 16px;
+}
+.card h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+
+/* Chart */
+.chart-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
+.chart-toggle select {
+  background: #0f172a; border: 1px solid #1e293b;
+  color: #e2e8f0; padding: 6px 12px; border-radius: 8px;
+  font-size: 12px; cursor: pointer;
+}
+
+/* Bars */
+.bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+.bar-track { flex: 1; height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.bar-fill.google { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+.bar-fill.meta { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+
+/* Market Grid */
+.market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.market-card {
+  background: #0f172a; border: 1px solid #1e293b;
+  border-radius: 12px; padding: 16px; text-align: center;
+}
+.market-flag { font-size: 28px; margin-bottom: 4px; }
+.market-name { font-size: 12px; color: #94a3b8; margin: 4px 0; }
+.market-spend { font-size: 14px; font-weight: 600; }
+.market-spend-prev { font-size: 11px; color: #64748b; margin-top: 2px; }
+.market-roas { font-size: 13px; font-weight: 700; margin-top: 4px; }
+.market-roas-prev { font-size: 10px; color: #64748b; }
+
+/* Tabs */
+.tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
+.tabs button {
+  padding: 8px 16px; border-radius: 20px;
+  border: 1px solid #1e293b; background: transparent;
+  color: #94a3b8; font-size: 13px; font-weight: 500;
+  cursor: pointer; white-space: nowrap;
+}
+.tabs button.active { background: #3b82f6; border-color: #3b82f6; color: white; }
+
+/* Campaign Cards */
+.camp-card {
+  background: #111827; border: 1px solid #1e293b;
+  border-radius: 16px; padding: 16px; margin-bottom: 12px;
+}
+.camp-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.camp-type {
+  font-size: 11px; color: #94a3b8; display: inline-block;
+  background: #1e293b; padding: 2px 8px; border-radius: 8px; margin-right: 4px;
+}
+.camp-stats {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 8px; margin-top: 12px; font-size: 12px; text-align: center;
+}
+.camp-stat-label { color: #64748b; font-size: 10px; }
+.camp-stat-value { font-weight: 600; margin-top: 2px; }
+.camp-kpi {
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 8px; padding: 4px 10px; border-radius: 8px;
+  font-size: 12px; font-weight: 600;
+}
+.camp-kpi.green { background: rgba(16,185,129,0.15); color: #10b981; }
+.camp-kpi.yellow { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.camp-kpi.red { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+/* Budget */
+.budget-circle {
+  width: 140px; height: 140px; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; margin: 0 auto 16px; position: relative;
+}
+.budget-pct { font-size: 28px; font-weight: 700; }
+.budget-label { font-size: 11px; color: #94a3b8; }
+.alloc-item {
+  display: flex; justify-content: space-between;
+  align-items: center; padding: 12px 0;
+  border-bottom: 1px solid #1e293b;
+}
+.pacing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.pacing-item { background: #0f172a; border-radius: 12px; padding: 16px; text-align: center; }
+.pacing-value { font-size: 18px; font-weight: 700; }
+.pacing-label { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+
+/* Alerts */
+.alert-card {
+  background: #111827; border-left: 3px solid;
+  border-radius: 0 16px 16px 0; padding: 16px; margin-bottom: 12px;
+  cursor: pointer; transition: transform 0.2s;
+}
+.alert-card:hover { transform: translateX(4px); }
+.alert-card.high { border-color: #ef4444; }
+.alert-card.medium { border-color: #f59e0b; }
+.alert-card.low { border-color: #10b981; }
+.alert-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.alert-badge {
+  font-size: 10px; padding: 2px 8px; border-radius: 8px;
+  display: inline-block; margin-bottom: 8px;
+}
+.alert-badge.high { background: rgba(239,68,68,0.15); color: #ef4444; }
+.alert-badge.medium { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.alert-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin: 12px 0; font-size: 12px; text-align: center;
+}
+.alert-action {
+  font-size: 12px; color: #94a3b8; background: #0f172a;
+  border-radius: 8px; padding: 12px; margin-top: 8px;
+}
+
+/* Alert Detail Page */
+.alert-detail { padding: 16px; }
+.alert-detail h2 { margin-bottom: 12px; }
+.suggestion-card {
+  background: #111827; border: 1px solid #1e293b;
+  border-radius: 16px; padding: 16px; margin-bottom: 12px;
+}
+.suggestion-card h4 { color: #60a5fa; margin-bottom: 8px; }
+.suggestion-card p { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+
+/* Settings */
+.settings-section {
+  background: #111827; border: 1px solid #1e293b;
+  border-radius: 16px; padding: 20px; margin-bottom: 16px;
+}
+.settings-section h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; color: #60a5fa; }
+.settings-input {
+  width: 100%; background: #0f172a; border: 1px solid #1e293b;
+  color: #e2e8f0; padding: 12px; border-radius: 8px;
+  font-size: 13px; margin-bottom: 12px;
+}
+.btn {
+  padding: 10px 20px; border: none; border-radius: 8px;
+  cursor: pointer; font-weight: 600; font-size: 13px;
+  display: inline-block; margin-right: 8px;
+}
+.btn-primary { background: #3b82f6; color: white; }
+.btn-secondary { background: #1e293b; color: #94a3b8; }
+.btn:hover { opacity: 0.9; }
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #0f172a; border-top: 1px solid #1e293b;
+  display: flex; justify-content: space-around;
+  padding: 8px 0; z-index: 999;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  font-size: 10px; color: #64748b; cursor: pointer;
+  padding: 4px 12px; text-decoration: none;
+}
+.nav-item.active { color: #3b82f6; }
+.nav-item svg { width: 20px; height: 20px; margin-bottom: 2px; }
+
+/* Live Indicator */
+.live-indicator {
+  position: fixed; top: 12px; right: 12px; z-index: 9999;
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  backdrop-filter: blur(10px); box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.live-indicator.online {
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.4); color: #10b981;
+}
+.live-indicator.offline {
+  background: rgba(245,158,11,0.15);
+  border: 1px solid rgba(245,158,11,0.4); color: #f59e0b;
+}
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+}
+.live-indicator.online .live-dot {
+  background: #10b981; animation: pulse 2s infinite;
+}
+.live-indicator.offline .live-dot { background: #f59e0b; }
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* Legend */
+.legend { display: flex; gap: 16px; margin-top: 8px; font-size: 11px; color: #94a3b8; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+
+/* Recharts overrides */
+.recharts-cartesian-axis-tick-value { fill: #64748b !important; font-size: 10px; }
+.recharts-tooltip-wrapper { outline: none; }
