@@ -10,9 +10,9 @@ function CampCard({ c }) {
       {c.market && <span className="camp-type">{c.market}</span>}
       <div className="camp-stats">
         <div><div className="camp-stat-label">ROAS</div><div className="camp-stat-value">{c.roas > 0 ? c.roas.toFixed(2) : '\u2014'}</div></div>
-        <div><div className="camp-stat-label">Spesa</div><div className="camp-stat-value">{fmtNum(c.spend)}\u20ac</div></div>
+        <div><div className="camp-stat-label">Spesa</div><div className="camp-stat-value">{fmtNum(c.spend)}€</div></div>
         <div><div className="camp-stat-label">CTR</div><div className="camp-stat-value">{c.ctr.toFixed(2)}%</div></div>
-        <div><div className="camp-stat-label">CPC</div><div className="camp-stat-value">\u20ac{c.cpc.toFixed(2)}</div></div>
+        <div><div className="camp-stat-label">CPC</div><div className="camp-stat-value">€{c.cpc.toFixed(2)}</div></div>
         <div><div className="camp-stat-label">Conv.</div><div className="camp-stat-value">{fmtNum(Math.round(c.conv))}</div></div>
       </div>
       <div className={`camp-kpi ${roasColor}`}>
