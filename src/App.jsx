@@ -33,7 +33,7 @@ export default function App() {
   const renderPage = () => {
     switch(page) {
       case 'dashboard': return <Dashboard data={data} period={period} setPeriod={setPeriod} />;
-      case 'campagne': return <Campagne data={data} />;
+            case 'campagne': return <Campagne data={data} period={period} setPeriod={setPeriod} />;
       case 'budget': return <Budget data={data} />;
       case 'alert': return <Alert data={data} detail={alertDetail} setDetail={setAlertDetail} />;
       case 'settings': return <Settings />;
