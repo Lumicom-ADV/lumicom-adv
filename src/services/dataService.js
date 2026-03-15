@@ -129,15 +129,15 @@ export function processData(raw) {
     const targetMonth = curMonth;
     const targetYear = curYear - 1;
     const prevRow = storico.rows.find(r => {
-      return parseInt(r[1]) === targetMonth && parseInt(r[0]) === targetYear;
+            return parseInt(r[0]) === targetMonth && parseInt(r[1]) === targetYear;
     });
     if (prevRow) {
-      prevSpesa = parseFloat(prevRow[2] || 0);
-      prevConv = parseFloat(prevRow[4] || 0);
-      prevClick = parseFloat(prevRow[5] || 0);
-      prevRoas = parseFloat(prevRow[3] || 0);
-      prevCtr = parseFloat(prevRow[6] || 0);
-      prevCpc = parseFloat(prevRow[7] || 0);
+            prevSpesa = parseFloat(prevRow[5] || 0);
+            prevConv = parseFloat(prevRow[8] || 0);
+            prevClick = parseFloat(prevRow[6] || 0);
+            prevRoas = parseFloat(prevRow[10] || 0);
+            prevCtr = parseFloat(prevRow[11] || 0);
+            prevCpc = parseFloat(prevRow[12] || 0);
     }
   }
 
