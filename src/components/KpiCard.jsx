@@ -13,7 +13,7 @@ export default function KpiCard({ label, value, current, previous, suffix = '', 
       {change.text && (
         <div className={`kpi-change ${cls}`}>{change.text}</div>
       )}
-      <div className="kpi-sub">vs stesso mese anno prec.</div>
+      <div className="kpi-sub">vs stesso periodo anno prec.</div>
     </div>
   );
 }
