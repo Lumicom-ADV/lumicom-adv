@@ -28,15 +28,15 @@ export default function Dashboard({ data }) {
   return (
     <div>
       <h1>Lumicom ADV</h1>
-      <p className="subtitle">{dateStr} \u2014 Panoramica Mensile</p>
+      <p className="subtitle">{dateStr} — Panoramica Mensile</p>
 
       <div className="kpi-scroll">
-        <KpiCard label="Spesa Mensile" value={`${fmtNum(k.spesa)}\u20ac`} current={k.spesa} previous={k.prevSpesa} />
+        <KpiCard label="Spesa Mensile" value={`${fmtNum(k.spesa)}€`} current={k.spesa} previous={k.prevSpesa} />
         <KpiCard label="ROAS Medio" value={k.roas.toFixed(2)} current={k.roas} previous={k.prevRoas} />
         <KpiCard label="Conversioni" value={fmtNum(Math.round(k.conv))} current={k.conv} previous={k.prevConv} />
         <KpiCard label="CTR Medio" value={`${k.ctr.toFixed(2)}%`} current={k.ctr} previous={k.prevCtr} />
         <KpiCard label="Click Totali" value={fmtNum(k.click)} current={k.click} previous={k.prevClick} />
-        <KpiCard label="CPC Medio" value={`\u20ac${k.cpc.toFixed(2)}`} current={k.cpc} previous={k.prevCpc} />
+        <KpiCard label="CPC Medio" value={`€${k.cpc.toFixed(2)}`} current={k.cpc} previous={k.prevCpc} />
       </div>
 
       <div className="card">
@@ -79,12 +79,12 @@ export default function Dashboard({ data }) {
       <div className="card">
         <h3>Performance per mercato</h3>
         <div className="market-grid">
-          {[{flag:'\ud83c\uddee\ud83c\uddf9',name:'Italia',key:'IT'},{flag:'\ud83c\uddeb\ud83c\uddf7',name:'Francia',key:'FR'},{flag:'\ud83c\udde9\ud83c\uddea',name:'Germania',key:'DE'}].map(({flag,name,key}) => (
+          {[{flag:'🇮🇹',name:'Italia',key:'IT'},{flag:'🇫🇷',name:'Francia',key:'FR'},{flag:'🇩🇪',name:'Germania',key:'DE'}].map(({flag,name,key}) => (
             <div className="market-card" key={key}>
               <div className="market-flag">{flag}</div>
               <div className="market-name">{name}</div>
-              <div className="market-spend">{fmtNum(m[key].spend)}\u20ac</div>
-              <div className="market-spend-prev">anno prec: {fmtNum(m[key].spend*0.9)}\u20ac</div>
+              <div className="market-spend">{fmtNum(m[key].spend)}€</div>
+              <div className="market-spend-prev">anno prec: {fmtNum(m[key].spend*0.9)}€</div>
               <div className="market-roas">ROAS {mkRoas(m[key])}</div>
               <div className="market-roas-prev">anno prec: {(mkRoas(m[key])*0.93).toFixed(2)}</div>
             </div>
