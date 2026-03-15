@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { fmtNum, fmtPct } from '../services/dataService';
 
 const PERIOD_LABELS = { mtd:'Mese corrente', last7:'Ultimi 7gg', last30:'Ultimi 30gg', prevMonth:'Mese precedente' };
+const EUR = '\u20AC';
 
 function CampCard({ c }) {
   const roasColor = c.roas >= 3 ? 'green' : c.roas >= 1.5 ? 'yellow' : 'red';
@@ -16,9 +17,9 @@ function CampCard({ c }) {
       {c.market && <span className="camp-type">{c.market}</span>}
       <div className="camp-stats">
         <div><div className="camp-stat-label">ROAS</div><div className="camp-stat-value">{c.roas > 0 ? c.roas.toFixed(2) : '\u2014'}{roasPct && roasPct.text && <small className={roasPct.cls}> {roasPct.text}</small>}</div></div>
-        <div><div className="camp-stat-label">Spesa</div><div className="camp-stat-value">{fmtNum(c.spend)}\u20AC{spesaPct && spesaPct.text && <small className={spesaPct.cls}> {spesaPct.text}</small>}</div></div>
+        <div><div className="camp-stat-label">Spesa</div><div className="camp-stat-value">{fmtNum(c.spend)}{EUR}{spesaPct && spesaPct.text && <small className={spesaPct.cls}> {spesaPct.text}</small>}</div></div>
         <div><div className="camp-stat-label">CTR</div><div className="camp-stat-value">{c.ctr.toFixed(2)}%</div></div>
-        <div><div className="camp-stat-label">CPC</div><div className="camp-stat-value">\u20AC{c.cpc.toFixed(2)}</div></div>
+        <div><div className="camp-stat-label">CPC</div><div className="camp-stat-value">{EUR}{c.cpc.toFixed(2)}</div></div>
         <div><div className="camp-stat-label">Conv.</div><div className="camp-stat-value">{fmtNum(Math.round(c.conv))}{convPct && convPct.text && <small className={convPct.cls}> {convPct.text}</small>}</div></div>
       </div>
       <div className={`camp-kpi ${roasColor}`}>
