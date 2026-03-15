@@ -123,23 +123,32 @@ export function processData(raw) {
   const avgRoas = totSpesa > 0 ? (totValConv / totSpesa) : 0;
   const avgCpc = totClick > 0 ? (totSpesa / totClick) : 0;
 
-  // YoY from storico_mensile
+  // YoY from storico_mensile — confronto a pari periodo
+  const dayOfMonth = now.getDate(); // es. 15
   let prevSpesa = 0, prevConv = 0, prevClick = 0, prevRoas = 0, prevCtr = 0, prevCpc = 0;
+  let periodLabel = '';
   if (storico && storico.rows && storico.rows.length > 0) {
     const targetMonth = curMonth;
     const targetYear = curYear - 1;
     const prevRow = storico.rows.find(r => {
-            return parseInt(r[0]) === targetMonth && parseInt(r[1]) === targetYear;
+      return parseInt(r[0]) === targetMonth && parseInt(r[1]) === targetYear;
     });
     if (prevRow) {
-            prevSpesa = parseFloat(prevRow[5] || 0);
-            prevConv = parseFloat(prevRow[8] || 0);
-            prevClick = parseFloat(prevRow[6] || 0);
-            prevRoas = parseFloat(prevRow[10] || 0);
-            prevCtr = parseFloat(prevRow[11] || 0);
-            prevCpc = parseFloat(prevRow[12] || 0);
+      // Giorni nel mese storico (es. marzo 2025 = 31)
+      const daysInPrevMonth = new Date(targetYear, targetMonth, 0).getDate();
+      const ratio = dayOfMonth / daysInPrevMonth;
+      // Metriche di volume: proporzionate al periodo
+      prevSpesa = parseFloat(prevRow[5] || 0) * ratio;
+      prevConv = parseFloat(prevRow[8] || 0) * ratio;
+      prevClick = parseFloat(prevRow[6] || 0) * ratio;
+      // Metriche di rapporto: restano invariate
+      prevRoas = parseFloat(prevRow[10] || 0);
+      prevCtr = parseFloat(prevRow[11] || 0);
+      prevCpc = parseFloat(prevRow[12] || 0);
+      periodLabel = '1-' + dayOfMonth + ' ' + now.toLocaleString('it-IT', {month:'short'});
     }
   }
+  
 
   // Platform distribution (from daily data mese corrente)
   let gSpesa = 0, mSpesa = 0;
@@ -248,7 +257,7 @@ export function processData(raw) {
 
   return {
     kpi: { spesa: totSpesa, roas: avgRoas, conv: totConv, ctr: avgCtr, click: totClick, cpc: avgCpc,
-           prevSpesa, prevRoas, prevConv, prevCtr, prevClick, prevCpc },
+           prevSpesa, prevRoas, prevConv, prevCtr, prevClick, prevCpc , periodLabel },
     platform: { gPct, mPct, gSpesa, mSpesa },
     markets, dailySpend, googleCampaigns, metaCampaigns, budget, alerts
   };
