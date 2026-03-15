@@ -262,8 +262,8 @@ export function processData(raw) {
   });
 
   return {
-    kpi: { spesa: totSpesa, roas: avgRoas, conv: totConv, ctr: avgCtr, click: totClick, cpc: avgCpc,
-           prevSpesa, prevRoas, prevConv, prevCtr, prevClick, prevCpc , periodLabel },
+    kpi: { spesa: totSpesa, roas: avgRoas, conv: totConv, ctr: avgCtr, click: totClick, cpc: avgCpc, valConv: totValConv,
+           prevSpesa, prevRoas, prevConv, prevCtr, prevClick, prevCpc, prevValConv, periodLabel },
     platform: { gPct, mPct, gSpesa, mSpesa },
     markets, dailySpend, googleCampaigns, metaCampaigns, budget, alerts
   };
