@@ -8,7 +8,7 @@ body {
   padding-bottom: 80px;
 }
 
-.app { max-width: 500px; margin: 0 auto; padding: 16px; }
+.app { max-width: 500px; margin: 0 auto; padding: 16px; overflow: hidden; }
 
 h1 { font-size: 20px; font-weight: 700; }
 h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
@@ -16,14 +16,25 @@ h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
 
 /* KPI Scroll */
 .kpi-scroll {
-  display: flex; gap: 12px; overflow-x: auto;
-  padding: 16px 0; -webkit-overflow-scrolling: touch;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 16px 0;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 .kpi-scroll::-webkit-scrollbar { display: none; }
 .kpi {
-  min-width: 140px; background: #111827;
-  border: 1px solid #1e293b; border-radius: 16px;
-  padding: 16px; flex-shrink: 0;
+  min-width: 140px;
+  background: #111827;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 16px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
 }
 .kpi-label { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
 .kpi-value { font-size: 22px; font-weight: 700; }
@@ -57,8 +68,8 @@ h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
 /* Market Grid */
 .market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .market-card {
-  background: #0f172a; border: 1px solid #1e293b;
-  border-radius: 12px; padding: 16px; text-align: center;
+  background: #0f172a; border: 1px solid #1e293b; border-radius: 12px;
+  padding: 16px; text-align: center;
 }
 .market-flag { font-size: 28px; margin-bottom: 4px; }
 .market-name { font-size: 12px; color: #94a3b8; margin: 4px 0; }
@@ -70,10 +81,9 @@ h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
 /* Tabs */
 .tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
 .tabs button {
-  padding: 8px 16px; border-radius: 20px;
-  border: 1px solid #1e293b; background: transparent;
-  color: #94a3b8; font-size: 13px; font-weight: 500;
-  cursor: pointer; white-space: nowrap;
+  padding: 8px 16px; border-radius: 20px; border: 1px solid #1e293b;
+  background: transparent; color: #94a3b8; font-size: 13px;
+  font-weight: 500; cursor: pointer; white-space: nowrap;
 }
 .tabs button.active { background: #3b82f6; border-color: #3b82f6; color: white; }
 
@@ -111,9 +121,8 @@ h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
 .budget-pct { font-size: 28px; font-weight: 700; }
 .budget-label { font-size: 11px; color: #94a3b8; }
 .alloc-item {
-  display: flex; justify-content: space-between;
-  align-items: center; padding: 12px 0;
-  border-bottom: 1px solid #1e293b;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid #1e293b;
 }
 .pacing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .pacing-item { background: #0f172a; border-radius: 12px; padding: 16px; text-align: center; }
@@ -123,8 +132,8 @@ h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
 /* Alerts */
 .alert-card {
   background: #111827; border-left: 3px solid;
-  border-radius: 0 16px 16px 0; padding: 16px; margin-bottom: 12px;
-  cursor: pointer; transition: transform 0.2s;
+  border-radius: 0 16px 16px 0; padding: 16px;
+  margin-bottom: 12px; cursor: pointer; transition: transform 0.2s;
 }
 .alert-card:hover { transform: translateX(4px); }
 .alert-card.high { border-color: #ef4444; }
@@ -200,21 +209,14 @@ h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
   backdrop-filter: blur(10px); box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 .live-indicator.online {
-  background: rgba(16,185,129,0.15);
-  border: 1px solid rgba(16,185,129,0.4); color: #10b981;
+  background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); color: #10b981;
 }
 .live-indicator.offline {
-  background: rgba(245,158,11,0.15);
-  border: 1px solid rgba(245,158,11,0.4); color: #f59e0b;
+  background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: #f59e0b;
 }
-.live-dot {
-  width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-}
-.live-indicator.online .live-dot {
-  background: #10b981; animation: pulse 2s infinite;
-}
+.live-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.live-indicator.online .live-dot { background: #10b981; animation: pulse 2s infinite; }
 .live-indicator.offline .live-dot { background: #f59e0b; }
-
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
 /* Legend */
