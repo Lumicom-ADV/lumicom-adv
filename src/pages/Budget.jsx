@@ -36,9 +36,9 @@ export default function Budget({ data }) {
           <div className="budget-label">utilizzato</div>
         </div>
         <div style={{marginTop:20, fontSize:14}}>
-          <span style={{fontWeight:700}}>{Math.round(b.spent).toLocaleString('it-IT')} \u20ac</span>
+          <span style={{fontWeight:700}}>{Math.round(b.spent).toLocaleString('it-IT')} €</span>
           <span style={{color:'#64748b'}}> di </span>
-          <span style={{fontWeight:700}}>{Math.round(b.total).toLocaleString('it-IT')} \u20ac</span>
+          <span style={{fontWeight:700}}>{Math.round(b.total).toLocaleString('it-IT')} €</span>
         </div>
         <div className="budget-label">Budget mensile</div>
       </div>
@@ -50,33 +50,33 @@ export default function Budget({ data }) {
             <span style={{width:10,height:10,borderRadius:'50%',background:'linear-gradient(135deg,#3b82f6,#8b5cf6)',display:'inline-block'}} />
             Google Ads
           </span>
-          <span>{Math.round(b.gSpent).toLocaleString('it-IT')} \u20ac / {Math.round(b.gBudget).toLocaleString('it-IT')} \u20ac <span style={{color: gPct > 100 ? '#ef4444' : '#10b981', fontSize:11}}>({gPct}%)</span></span>
+          <span>{Math.round(b.gSpent).toLocaleString('it-IT')} € / {Math.round(b.gBudget).toLocaleString('it-IT')} € <span style={{color: gPct > 100 ? '#ef4444' : '#10b981', fontSize:11}}>({gPct}%)</span></span>
         </div>
         <div className="alloc-item">
           <span style={{display:'flex',alignItems:'center',gap:8}}>
             <span style={{width:10,height:10,borderRadius:'50%',background:'linear-gradient(135deg,#8b5cf6,#ec4899)',display:'inline-block'}} />
             Meta Ads
           </span>
-          <span>{Math.round(b.mSpent).toLocaleString('it-IT')} \u20ac / {Math.round(b.mBudget).toLocaleString('it-IT')} \u20ac <span style={{color: mPct > 100 ? '#ef4444' : '#10b981', fontSize:11}}>({mPct}%)</span></span>
+          <span>{Math.round(b.mSpent).toLocaleString('it-IT')} € / {Math.round(b.mBudget).toLocaleString('it-IT')} € <span style={{color: mPct > 100 ? '#ef4444' : '#10b981', fontSize:11}}>({mPct}%)</span></span>
         </div>
       </div>
 
       <div className="card">
         <h3>Pacing</h3>
-        <div className="pacing-grid">
-          <div className="pacing-item">
-            <div className="pacing-value">{Math.round(avgDay)}\u20ac</div>
-            <div className="pacing-label">Media giornaliera</div>
+        <div className="alloc-item">
+          <div>
+            <div style={{fontSize:20,fontWeight:700}}>{Math.round(avgDay)}€</div>
+            <div style={{fontSize:11,color:'#64748b'}}>Media giornaliera</div>
           </div>
-          <div className="pacing-item">
-            <div className="pacing-value">{Math.round(targetDay)}\u20ac</div>
-            <div className="pacing-label">Target giornaliero</div>
+          <div>
+            <div style={{fontSize:20,fontWeight:700}}>{Math.round(targetDay)}€</div>
+            <div style={{fontSize:11,color:'#64748b'}}>Target giornaliero</div>
           </div>
-          <div className="pacing-item" style={{gridColumn:'span 2'}}>
-            <div className="pacing-value" style={{color: projection > b.total * 1.1 ? '#ef4444' : projection < b.total * 0.9 ? '#f59e0b' : '#10b981'}}>
-              {Math.round(projection).toLocaleString('it-IT')}\u20ac
+          <div>
+            <div style={{fontSize:20,fontWeight:700,color: projection > b.total * 1.1 ? '#ef4444' : projection < b.total * 0.9 ? '#f59e0b' : '#10b981'}}>
+              {Math.round(projection).toLocaleString('it-IT')}€
             </div>
-            <div className="pacing-label">Proiezione fine mese</div>
+            <div style={{fontSize:11,color:'#64748b'}}>Proiezione fine mese</div>
           </div>
         </div>
       </div>
